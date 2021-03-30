@@ -52,6 +52,23 @@ router.get('/utilisateur/:id_utilisateur', function (req, res, next) {
     }
     );
   });
+
+  router.get('/utilisateur/:email', function (req, res, next) {
+    db.query(
+      'SELECT * FROM utilisateur where email=?',
+      [req.params.email],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          res.status(500).json({status: 'error'});
+        } else {
+          res.status(200).json(results);
+        }
+      }
+      );
+    });
+
+
 router.put('/utilisateur/:id_utilisateur', function (req, res, next) {
   db.query(
     'UPDATE utilisateur SET nom=?, nom=?, prenom=?, email=?, telephone=?, adresse=?, password=?, date_inscription=?, last_login=? WHERE id_utilisateur=?',
@@ -79,6 +96,7 @@ router.delete('/utilisateur/:id_utilisateur', function (req, res, next) {
     }
   );
 });
+
 
 router.post('/user/register', async function (req, res, next) {
   try {
